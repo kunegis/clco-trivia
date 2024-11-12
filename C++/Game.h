@@ -1,48 +1,51 @@
-#include <iostream>
-#include <list>
-#include <vector>
-using namespace std;
-
 #ifndef GAME_H_
 #define GAME_H_
 
-class Game{
+#include <iostream>
+#include <list>
+#include <vector>
 
-		private:
-			vector<string> players;
+constexpr int PLACE_COUNT = 12;
 
-			int places[6];
-			int purses[6];
+class Player
+{
+public:
+	Player(std::string _name)
+		: name(_name) { }
+		
+	std::string name;
+	int place = 0;
+	int purse = 0;
+	bool inPenaltyBox = false;
 
-			bool inPenaltyBox[6];
+	void advance(int roll);
+};
 
-			list<string> popQuestions;
-			list<string> scienceQuestions;
-			list<string> sportsQuestions;
-			list<string> rockQuestions;
-
-			unsigned int currentPlayer;
-			bool isGettingOutOfPenaltyBox;
-
+class Game
+{
 public:
 	Game();
-	string createRockQuestion(int index);
-	bool isPlayable();
-	bool add(string playerName);
-
-	int howManyPlayers();
+	bool isPlayable() const;
+	void addPlayer(std::string playerName);
+	int playerCount() const;
 	void roll(int roll);
-
-	private:
-		void askQuestion();
-		string currentCategory();
-
-				public:
-					bool wasCorrectlyAnswered();
-					bool wrongAnswer();
+	bool wasCorrectlyAnswered();
+	bool wrongAnswer();
 
 private:
+	std::vector <Player> players;
+	std::list <std::string> popQuestions;
+	std::list <std::string> scienceQuestions;
+	std::list <std::string> sportsQuestions;
+	std::list <std::string> rockQuestions;
+	int currentPlayer = -1;
+	bool isGettingOutOfPenaltyBox;
+
+	const Player &getCurrentPlayer() const;
+	Player &getCurrentPlayer();
+	void askQuestion();
+	std::string currentCategory();
 	bool didPlayerWin();
 };
 
-#endif /* GAME_H_ */
+#endif /* ! GAME_H_ */

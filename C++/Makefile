@@ -6,25 +6,27 @@ OUTOPTS = -o
 OUT = out/trivia
 TEST_OUT = out/trivia_tests
 
+.PHONY:  .outputFolder all prod tests runTest clean
+
 all: prod 
 
-prod: build run
+prod: run
 
-tests: test runTest
+tests: runTest
 
 .outputFolder:
 	mkdir -p out
 
-build: .outputFolder
+$(OUT): .outputFolder $(FILES)
 	$(CC) $(FILES) $(OPTS) $(OUTOPTS) $(OUT)
 
-run: 
+run: $(OUT)
 	./$(OUT)
 
-test: .outputFolder
+$(TEST_OUT): .outputFolder 
 	$(CC) $(TEST_FILES) $(OPTS) $(OUTOPTS) $(TEST_OUT)
 
-runTest: 
+runTest: $(TEST_OUT)
 	./$(TEST_OUT)
 
 clean: 

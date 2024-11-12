@@ -1,20 +1,19 @@
 ﻿#include <stdlib.h>
-#include "Game.h"
 
-static bool notAWinner;
+#include "Game.h"
 
 int main()
 {
-
 	srand(time(NULL));
 	Game aGame;
 
-	aGame.add("Chet");
-	aGame.add("Pat");
-	aGame.add("Sue");
+	aGame.addPlayer("Chet");
+	aGame.addPlayer("Pat");
+	aGame.addPlayer("Sue");
 
-	do
-	{
+	bool notAWinner;
+
+	do {
 
 		aGame.roll(rand() % 5 + 1);
 
@@ -28,4 +27,5 @@ int main()
 		}
 	} while (notAWinner);
 
+	return 0;
 }
